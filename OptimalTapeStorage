@@ -1,0 +1,26 @@
+import java.util.Arrays;
+
+public class OptimalTapeStorage {
+    public static void computeMRT(int[] lengths) {
+        // Greedy approach: Sort programs in ascending order of length
+        Arrays.sort(lengths);
+
+        System.out.println("Optimal Retrieval Order: " + Arrays.toString(lengths));
+        
+        double totalRetrievalTime = 0;
+        int cumulativeSum = 0;
+
+        for (int len : lengths) {
+            cumulativeSum += len;
+            totalRetrievalTime += cumulativeSum;
+        }
+
+        double mrt = totalRetrievalTime / lengths.length;
+        System.out.println("Mean Retrieval Time (MRT): " + mrt);
+    }
+
+    public static void main(String[] args) {
+        int[] programLengths = {12, 5, 8, 32, 7, 3};
+        computeMRT(programLengths);
+    }
+}
