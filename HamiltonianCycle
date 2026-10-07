@@ -1,0 +1,56 @@
+import java.util.Arrays;
+
+public class HamiltonianCycle {
+    private final int V;
+    private final int[] path;
+
+    public HamiltonianCycle(int V) {
+        this.V = V;
+        this.path = new int[V];
+        Arrays.fill(path, -1);
+    }
+
+    public void findCycle(int[][] graph) {
+        path[0] = 0; // Start at vertex 0
+        if (solve(graph, 1)) {
+            System.out.println("Hamiltonian Cycle found: " + Arrays.toString(path) + " -> " + path[0]);
+        } else {
+            System.out.println("No Hamiltonian Cycle exists.");
+        }
+    }
+
+    private boolean solve(int[][] graph, int pos) {
+        if (pos == V) {
+            return graph[path[pos - 1]][path[0]] == 1; // Check if last connects back to first
+        }
+
+        for (int v = 1; v < V; v++) {
+            if (isSafe(v, graph, pos)) {
+                path[pos] = v;
+                if (solve(graph, pos + 1)) return true;
+                path[pos] = -1; // Backtrack
+            }
+        }
+        return false;
+    }
+
+    private boolean isSafe(int v, int[][] graph, int pos) {
+        if (graph[path[pos - 1]][v] == 0) return false;
+        for (int i = 0; i < pos; i++) {
+            if (path[i] == v) return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        int[][] graph = {
+            {0, 1, 0, 1, 0},
+            {1, 0, 1, 1, 1},
+            {0, 1, 0, 0, 1},
+            {1, 1, 0, 0, 1},
+            {0, 1, 1, 1, 0}
+        };
+        HamiltonianCycle hc = new HamiltonianCycle(5);
+        hc.findCycle(graph);
+    }
+}
