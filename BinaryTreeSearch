@@ -1,0 +1,28 @@
+public class BinaryTreeSearch {
+    static class Node {
+        int val;
+        Node left, right;
+        Node(int val) { this.val = val; }
+    }
+
+    public static boolean search(Node root, int key) {
+        if (root == null) return false;
+        if (root.val == key) return true;
+        return search(root.left, key) || search(root.right, key);
+    }
+
+    public static void main(String[] args) {
+        Node root = new Node(10);
+        root.left = new Node(20);
+        root.right = new Node(30);
+        root.left.left = new Node(40);
+        root.left.right = new Node(50);
+
+        int keyToSearch = 50;
+        if (search(root, keyToSearch)) {
+            System.out.println("Key " + keyToSearch + " found in the Binary Tree.");
+        } else {
+            System.out.println("Key " + keyToSearch + " NOT found in the Binary Tree.");
+        }
+    }
+}
